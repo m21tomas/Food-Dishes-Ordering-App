@@ -10,7 +10,6 @@ import apiEndpoint from "../06Services/endpoint";
 import axios from 'axios';
 import ReCAPTCHA from 'react-google-recaptcha';
 
-
 const NewRegistrationModal = ({ registerModal, setRegisterModal }) => {
     const passwordShown = false;
 
@@ -81,7 +80,7 @@ const NewRegistrationModal = ({ registerModal, setRegisterModal }) => {
         };
 
         let response = await axios.post(`${apiEndpoint}/api/verify`, recaptchaDTO)
-        console.log(response.data)
+        //console.log(response.data)
 
         if ((registerState.username.length === 0 ||
             registerState.password.length === 0 ||
@@ -90,6 +89,7 @@ const NewRegistrationModal = ({ registerModal, setRegisterModal }) => {
         ) {
             setRegStatusColor("rgb(134, 37, 37)");
             setRegStatus("Visi laukai privalo būti užpildyti");
+            setExpiredCapture(true);
         } 
         else if(!check3Validation()){
             setRegStatusColor("rgb(134, 37, 37)");
@@ -97,10 +97,12 @@ const NewRegistrationModal = ({ registerModal, setRegisterModal }) => {
             if(!infoValid.username) setRegStatus(infoWarning.username); else
             if(!infoValid.password) setRegStatus(infoWarning.password); else
             if(!infoValid.email) setRegStatus(infoWarning.email);
+            setExpiredCapture(true);
         }
         else if(!response.data){
             setRegStatusColor("rgb(220, 70, 0)");
             setRegStatus("Turite patvirtinti, kad jūs ne robotas");
+            setExpiredCapture(true);
         }
         else if (
                 check3Validation() && response.data &&
@@ -388,7 +390,6 @@ const NewRegistrationModal = ({ registerModal, setRegisterModal }) => {
                     size="normal"
                     sitekey={`${process.env.REACT_APP_SITE_KEY}`}
                     onExpired={() => setExpiredCapture(true)}
-                    //onExpired={() => {recaptchaRef.current.reset()}}
                 />
             </Modal.Body>
 

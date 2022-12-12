@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
@@ -19,6 +19,7 @@ const AdminAddMenu = () => {
     // const history = useHistory();
     const [chosenMenuId, setChosenMenuId] = useState(null);
     const [canteensList, setCanteensList] = useState([]);
+    const history = useHistory();
 
     const [canteenFullData, setCanteenFullData] = useState({
         id: '',
@@ -318,6 +319,8 @@ const AdminAddMenu = () => {
                                 )
                             }
                         </select>
+                            <button className="editDishBack" onClick={() => history.push("/canteen")}>Atgal</button>
+
                     </div>
 
                     <table className="table">
@@ -640,15 +643,6 @@ const AdminAddMenu = () => {
                     getCanteenEntity={getCanteenEntity}
                 />
             </div>
-
-            <div className="row pt-4"></div>
-            <Link
-                className="text-decoration-none"
-                type="button"
-                to={`/canteen`}
-            >
-                <button className="btn btn-outline-primary">Atgal</button>
-            </Link>
         </div>
 
     );

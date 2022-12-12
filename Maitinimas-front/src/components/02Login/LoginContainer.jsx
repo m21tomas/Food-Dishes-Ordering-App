@@ -10,6 +10,7 @@ import AuthContext from "../06Services/AuthContext";
 import logo from "../../images/maist2.png";
 import Button from 'react-bootstrap/Button';
 import NewRegistrationModal from "./NewRegistrationModal";
+import ForgotPasswordModal from "./ForgotPasswordModal";
 
 axios.defaults.withCredentials = true;
 
@@ -23,6 +24,8 @@ export const LoginContainer = () => {
 
   const [data, setData] = React.useState(initState);
   const { dispatch } = React.useContext(AuthContext);
+  const [forgotModal, setForgotModal] = useState(false);
+  const [registerModal, setRegisterModal] = useState(false);
   const history = useHistory();
   // const createUserForm = "/createAccount";
   const loginInstance = axios.create();
@@ -69,27 +72,6 @@ export const LoginContainer = () => {
       }
     }
   );
-
-  const [forgotModal, setForgotModal] = useState(true);
-
-  const handleCloseForgot = () => {
-    setForgotModal(false);
-  }
-
-  function forgotPasswordModal(e) {
-    e.preventDefault();
-    alert("forgot modal function in action")
-    return (
-      <Modal show={forgotModal} onHide={handleCloseForgot}>
-        <Modal.Header closeButton>
-          <Modal.Title>Vartotojo autentifikacija</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <p>Prašau autentifikuotis</p>
-        </Modal.Body>
-      </Modal>
-    )
-  }
 
   const handleChange = (event) => {
     validateText(event);
@@ -140,8 +122,6 @@ export const LoginContainer = () => {
   //   history.push(createUserForm);
   // };
 
-  const [registerModal, setRegisterModal] = useState(false);
-
   return (
     <div className="d-flex flex-column justify-content-center align-items-center min-vh-100" >
       <div className="card p-5" style={{ width: "25%" }}>
@@ -189,22 +169,11 @@ export const LoginContainer = () => {
               title="Įveskite naudotojo slaptažodį"
             />
           </div>
-
-          {/* <button
-            type="button"
-            className="btn btn-link mt-3 text-decoration-none ps-0"
-            onClick={() => {
-              return ForgotPasswordWindow();
-            }}
-            formNoValidate
-          >
-            Pamiršau slaptažodį
-          </button> */}
+          
           <div>
-            <button onClick={forgotPasswordModal}>
-              Pamiršau slaptažodį...
-            </button>
-          </div>
+            <Link to="#" onClick={() => setForgotModal(true)}>Pamiršau slaptažodį...</Link>
+            <ForgotPasswordModal forgotModal={forgotModal} setForgotModal={setForgotModal} />
+          </div> 
 
           <div className="row justify-content-between mt-3">
             <Button className="login-register" onClick={() => setRegisterModal(true)}>
@@ -233,6 +202,7 @@ export const LoginContainer = () => {
             Sukurti paskyrą
           </button> */}
         </form>
+             
         {data.loginError && (
           <span
             className="alert alert-danger mt-3"

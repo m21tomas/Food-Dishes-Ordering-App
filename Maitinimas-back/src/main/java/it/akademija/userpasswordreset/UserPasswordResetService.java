@@ -34,7 +34,7 @@ public class UserPasswordResetService {
 				return new ResponseEntity<String>("Neatpažinta tapatybė. Vartotojo \""+username+"\" elektroninio pašto adresas nėra \""+email+"\"", HttpStatus.UNAUTHORIZED);
 			}
 			
-			LOG.info("[{}] athenticated, returning true", username);
+			LOG.info("[{}] authenticated, returning true", username);
 			
 			return new ResponseEntity<String>("true", HttpStatus.OK);
 		}

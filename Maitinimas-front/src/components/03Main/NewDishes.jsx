@@ -64,6 +64,7 @@ function NewDishes({ fullData, chosenId, menuData, setMenuData, handleChange,
                 if (event.target.name === "editDishName") {
                     changedDishName = event.target.value;
                     changedDescription = dish.editDescription;
+                    console.log(event.target.value);
                     if (event.target.validity.valueMissing) {
                         event.target.setCustomValidity("Būtina užpildyti šį laukelį");
                     }
@@ -82,11 +83,12 @@ function NewDishes({ fullData, chosenId, menuData, setMenuData, handleChange,
                 } else if (event.target.name === "editDescription") {
                     changedDishName = dish.editDishName;
                     changedDescription = event.target.value;
-                    if (event.target.value.match(/^[A-ZĄ-Ž]{1}[\S\s]{1,}$/) ||
-                        event.target.value === '') {
+                    console.log(event.target.value);
+                    if (event.target.value.match(/^[A-ZĄ-Ž\d]{1}[\S\s]{1,}$/) || event.target.value === '') {
                         event.target.setCustomValidity("");
                         validity_Description = true;
                         validity_DishName = dish.infoValid_dishName;
+                        console.log("description validation true")
                     }
                     else {
                         event.target.setCustomValidity(
@@ -94,6 +96,7 @@ function NewDishes({ fullData, chosenId, menuData, setMenuData, handleChange,
                         );
                         validity_Description = false;
                         validity_DishName = dish.infoValid_dishName;
+                        console.log("description validation false")
                     }
                 }
                 return {
@@ -261,7 +264,7 @@ function NewDishes({ fullData, chosenId, menuData, setMenuData, handleChange,
 
     function exampleTable() {
         return (
-            <div className='mt-3' style={{ height: '300px', overflowY: 'scroll' }}>
+            <div className='mt-3' style={{ height: '600px', overflowY: 'scroll' }}>
                 {/* {editTableDishes.length == 0 ? null : <p>Testing</p>} */}
                 <Table striped bordered >
                     <thead>
@@ -330,7 +333,7 @@ function NewDishes({ fullData, chosenId, menuData, setMenuData, handleChange,
                                                         name='editDescription'
                                                         value={item.editDescription}
                                                         onChange={(e) => handleDishEdit(e, index)}
-                                                        maxLength={255}
+                                                        maxLength={2000}
                                                         data-for='editDishDescription'
                                                         data-tip='tooltip'
                                                     >
