@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+
 @RestController
 @RequestMapping(path = "/api/istaigos")
 public class CanteenController {
@@ -265,5 +266,31 @@ public class CanteenController {
 			return new ResponseEntity<String>("Maitinimo įstaigos id: "+id+" nėra. Ištrynimas neįvyko.", HttpStatus.NOT_FOUND);
 		}
 		
+	}
+	
+	@Secured({ "ROLE_USER" })
+	@GetMapping("/canteen/name/page/{name}")
+	public ResponseEntity<Page<CanteenWithAnImageDTO>> getCanteensPageFilteredByName(@PathVariable String name,
+			@RequestParam("page") int page, @RequestParam("size") int size) {
+
+		Sort.Order order = new Sort.Order(Sort.Direction.ASC, "name").ignoreCase();
+
+		Pageable pageable = PageRequest.of(page, size, Sort.by(order));
+
+		return new ResponseEntity<>(canteenService.getCanteensPageFilteredByName(name, pageable),
+				HttpStatus.OK);
+	}
+	
+	@Secured({ "ROLE_USER" })
+	@GetMapping("/canteen/address/page/{address}")
+	public ResponseEntity<Page<CanteenWithAnImageDTO>> getCanteensPageFilteredByAddress(@PathVariable String address,
+			@RequestParam("page") int page, @RequestParam("size") int size) {
+
+		Sort.Order order = new Sort.Order(Sort.Direction.ASC, "name").ignoreCase();
+
+		Pageable pageable = PageRequest.of(page, size, Sort.by(order));
+
+		return new ResponseEntity<>(canteenService.getCanteensPageFilteredByAddress(address, pageable),
+				HttpStatus.OK);
 	}
 }

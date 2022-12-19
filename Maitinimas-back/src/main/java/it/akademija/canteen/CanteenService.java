@@ -23,6 +23,7 @@ import org.springframework.util.StreamUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+
 @Service
 public class CanteenService {
 
@@ -407,6 +408,114 @@ public class CanteenService {
 		}
 		
 		return false;
+	}
+	
+	@Transactional(readOnly = true)
+	public Page<CanteenWithAnImageDTO> getCanteensPageFilteredByName(String name, Pageable pageable) {
+
+		Page<Canteen> canteens = canteenDao.findByNameContainingIgnoreCase(name, pageable);
+		
+		Page<CanteenWithAnImageDTO> dtoPage = canteens.map(new Function<Canteen, CanteenWithAnImageDTO>() {
+
+			@Override
+			public CanteenWithAnImageDTO apply(Canteen t) {
+				CanteenWithAnImageDTO dto = new CanteenWithAnImageDTO();
+				
+				dto.setId(t.getCode());
+				dto.setName(t.getName());
+				dto.setAddress(t.getAddress());
+				dto.setMenus(t.getMenus());
+				
+				InputStream inputStream = null;
+				if(t.getImagename() != null) { 
+					String imageName = t.getImagename();
+					
+					try {
+						inputStream = new FileInputStream("canteen-images/" + imageName);
+					} catch (FileNotFoundException e) {
+						e.printStackTrace();
+					}
+					
+					byte[] imageBytes = null;
+					
+					try {
+						imageBytes = StreamUtils.copyToByteArray(inputStream);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					
+					dto.setImage(imageBytes);
+				}
+				else {
+					dto.setImage(null);
+				}
+				
+				try {
+					if(inputStream != null) {
+	                   inputStream.close();
+	                }
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				
+				return dto;
+			}		
+		});
+		return dtoPage;
+	}
+	
+	@Transactional(readOnly = true)
+	public Page<CanteenWithAnImageDTO> getCanteensPageFilteredByAddress(String address, Pageable pageable) {
+
+		Page<Canteen> canteens = canteenDao.findByAddressContainingIgnoreCase(address, pageable);
+		
+		Page<CanteenWithAnImageDTO> dtoPage = canteens.map(new Function<Canteen, CanteenWithAnImageDTO>() {
+
+			@Override
+			public CanteenWithAnImageDTO apply(Canteen t) {
+				CanteenWithAnImageDTO dto = new CanteenWithAnImageDTO();
+				
+				dto.setId(t.getCode());
+				dto.setName(t.getName());
+				dto.setAddress(t.getAddress());
+				dto.setMenus(t.getMenus());
+				
+				InputStream inputStream = null;
+				if(t.getImagename() != null) { 
+					String imageName = t.getImagename();
+					
+					try {
+						inputStream = new FileInputStream("canteen-images/" + imageName);
+					} catch (FileNotFoundException e) {
+						e.printStackTrace();
+					}
+					
+					byte[] imageBytes = null;
+					
+					try {
+						imageBytes = StreamUtils.copyToByteArray(inputStream);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					
+					dto.setImage(imageBytes);
+				}
+				else {
+					dto.setImage(null);
+				}
+				
+				try {
+					if(inputStream != null) {
+	                   inputStream.close();
+	                }
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				
+				return dto;
+			}		
+		});
+		return dtoPage;
 	}
 	
 }

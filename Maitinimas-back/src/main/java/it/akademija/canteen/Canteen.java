@@ -43,6 +43,15 @@ public class Canteen {
 		
 	public Canteen() {}
 	
+	public Canteen(@NotEmpty Long code, @NotEmpty String name, @NotEmpty String address, String image, List<Menu> menu) {
+		super();
+		this.code = code;
+		this.name = name;
+		this.address = address;
+		this.imagename = image;
+		this.menus = menu;
+	}
+	
 	public Canteen(@NotEmpty Long code, @NotEmpty String name, @NotEmpty String address) {
 		super();
 		this.code = code;
@@ -59,14 +68,7 @@ public class Canteen {
 		this.imagename = image;
 	}
 
-	public Canteen(@NotEmpty Long code, @NotEmpty String name, @NotEmpty String address, String image, List<Menu> menu) {
-		super();
-		this.code = code;
-		this.name = name;
-		this.address = address;
-		this.imagename = image;
-		this.menus = menu;
-	}
+	
 
 	public Long getId() {
 		return id;

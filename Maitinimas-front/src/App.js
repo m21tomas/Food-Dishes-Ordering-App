@@ -11,6 +11,9 @@ import CanteenContainer from './components/03Main/CanteenContainer';
 import AdminNavBar from './components/01Navigation/AdminNavBar';
 import NotFound from "./components/02Login/NotFound";
 import AdminAddMenu from "./components/03Main/AdminAddMenu";
+import UserNavBar from './components/01Navigation/UserNavBar';
+import UserHomeContainer from "./components/05Client/UserHomeContainer";
+import ChosenCanteen from './components/05Client/ChosenCanteen';
 
 import './App.css';
 import axios from "axios";
@@ -110,7 +113,7 @@ function App() {
 
                       <Route exact path="/canteen" component={CanteenContainer} />
 
-                      <Route exact path="/addMenu/:id" component={AdminAddMenu}/>
+                      <Route exact path="/addMenu/:id" component={AdminAddMenu} />
 
                       <Route path="*" component={NotFound} />
                     </Switch>
@@ -122,7 +125,21 @@ function App() {
         );
       case "USER":
         return (
-          <div><h1>Useris</h1></div>
+          <AuthContext.Provider value={{ state, dispatch }}>
+            <CommonErrorHandler>
+              <div className="container-fluid px-0">
+                <UserNavBar>
+                  <Switch>
+                    <Route exact path="/" component={UserHomeContainer} />
+                    <Route exact path="/home" component={UserHomeContainer} />
+                    <Route exact path="/canteen/:id" component={ChosenCanteen} />
+                    
+                    <Route path="*" component={NotFound} />
+                  </Switch>
+                </UserNavBar>
+              </div>
+            </CommonErrorHandler>
+          </AuthContext.Provider>
         );
       default:
         return (

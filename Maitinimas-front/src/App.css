@@ -607,6 +607,41 @@
   height: 37.97px;
 }
 
+.wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+.wrapper:after {
+  content: '';
+  display: block;
+  padding-top: 100%;
+}
+
+.wrapper.wrWidth img {
+  width: 100%;
+  height: auto;
+  max-width: none;
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
+}
+
+.wrapper.wrHeight img {
+  width: auto;
+  height: 100%;
+  max-width: none;
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
+}
+
+.text-align-center{
+  text-align: center;
+}
+
 @keyframes spin {
   from {
     transform: rotate(0turn);
