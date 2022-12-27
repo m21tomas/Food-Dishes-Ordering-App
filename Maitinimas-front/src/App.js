@@ -2,6 +2,7 @@ import React, { useEffect, useReducer, useState } from "react";
 import { useLocation, Link } from 'react-router-dom';
 import { Switch, Route, Redirect } from "react-router-dom";
 import AuthContext from './components/06Services/AuthContext';
+import CartContext from './components/06Services/CartContext';
 import AdminCanteenContext from './components/06Services/AdminCanteenContext';
 import apiEndpoint from './components/06Services/endpoint';
 import CommonErrorHandler from './components/06Services/CommonErrorHandler';
@@ -59,6 +60,7 @@ const reducer = (state, action) => {
 function App() {
   const [state, dispatch] = useReducer(reducer, initState);
   const [canteenState, setCanteenState] = useState([]);
+  const [cartState, setCartState] = useState(0);
 
   useEffect(() => {
     if (state.isAuthenticated === null) {
@@ -128,15 +130,17 @@ function App() {
           <AuthContext.Provider value={{ state, dispatch }}>
             <CommonErrorHandler>
               <div className="container-fluid px-0">
-                <UserNavBar>
-                  <Switch>
-                    <Route exact path="/" component={UserHomeContainer} />
-                    <Route exact path="/home" component={UserHomeContainer} />
-                    <Route exact path="/canteen/:id" component={ChosenCanteen} />
-                    
-                    <Route path="*" component={NotFound} />
-                  </Switch>
-                </UserNavBar>
+                <CartContext.Provider value={{ cartState, setCartState }}>
+                  <UserNavBar>
+                    <Switch>
+                      <Route exact path="/" component={UserHomeContainer} />
+                      <Route exact path="/home" component={UserHomeContainer} />
+                      <Route exact path="/canteen/:id" component={ChosenCanteen} />
+
+                      <Route path="*" component={NotFound} />
+                    </Switch>
+                  </UserNavBar>
+                </CartContext.Provider>
               </div>
             </CommonErrorHandler>
           </AuthContext.Provider>

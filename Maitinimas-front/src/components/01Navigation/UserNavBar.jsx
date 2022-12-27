@@ -4,6 +4,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Table from 'react-bootstrap/Table';
 import AuthContext from "../06Services/AuthContext";
+import CartContext from "../06Services/CartContext";
 import axios from "axios";
 import apiEndpoint from "../06Services/endpoint";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -17,26 +18,34 @@ import LogoutContainer from "./LogoutContainer";
 
 function UserNavBar(props) {
     const { state } = React.useContext(AuthContext);
+    const {cartState} = React.useContext(CartContext);
 
     const[itemsInCart, setItemsInCart] = useState(0);
 
     useEffect(() => {
         axios.get(`${apiEndpoint}/api/cart/getCart`)
              .then(response => {
-                console.log(JSON.stringify(response.data));
-                if(response.data.cartItemId == null)
-                setItemsInCart(null);
-                else
-                setItemsInCart(response.data.length);
+                //console.log(JSON.stringify(response.data));
+                response.data.map((item) => {
+                    if(item.cartItemId == null){
+                        setItemsInCart(null);
+                        console.log("Items in cart: null")
+                    }
+                    else {
+                        setItemsInCart(response.data.length);
+                        console.log("Items in cart: "+response.data.length)
+                    }
+                    return null;
+                })   
              })
-             .catch((error) => { 
-                //console.log(JSON.stringify(error.response.data));
-                if(error.response.data.cartItemId == null)
-                setItemsInCart(null);
-                else
-                setItemsInCart(error.response.data.length);
+             .catch(error => { 
+                error.response.data.map(item => {
+                    setItemsInCart(null);
+                    console.log(item.serviceResponse)
+                    return null;
+                })
             });
-    }, [])
+    }, [cartState])
 
     return (
         <>

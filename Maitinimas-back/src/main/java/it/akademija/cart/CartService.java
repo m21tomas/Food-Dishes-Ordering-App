@@ -178,6 +178,8 @@ public class CartService {
 			
 			cartItem.setQuantity(quantityInCart);
 			
+			cartRepo.save(cartItem);
+			
 			body4 = new CartItemsResponseDTO(cartItem.getId(), cartItem.getDish().getId(), cartItem.getDish().getName(), cartItem.getDish().getDescription(),
 					quantityInCart, cartItem.getUser().getUsername(), serverResponse);
 			
@@ -196,13 +198,15 @@ public class CartService {
 			
 			cartItem = new CartItem(dish, user, quantity);
 			
-			body4 = new CartItemsResponseDTO(cartItem.getId(), dish.getId(), dish.getName(), dish.getDescription(),
+			CartItem newCartItem = cartRepo.save(cartItem);
+			
+			body4 = new CartItemsResponseDTO(newCartItem.getId(), dish.getId(), dish.getName(), dish.getDescription(),
 					quantityInCart, user.getUsername(), serverResponse);
 			
 			status = HttpStatus.CREATED;
 		}
 		
-		cartRepo.save(cartItem);
+		
 		
 		return new ResponseEntity<CartItemsResponseDTO> (body4, status);
 	}

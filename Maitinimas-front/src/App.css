@@ -642,6 +642,31 @@
   text-align: center;
 }
 
+.quantity-control {
+  display: inline-flex;
+  background-color: lightgrey;
+  width: 17px;
+  height: 17px;
+  vertical-align: 6%;
+  font-weight: bolder;
+}
+
+.quantity-control:visited {
+  outline-style: none;
+}
+
+.quantity-control {
+  margin-left: 6px;
+  line-height: 13px;
+  padding: 0px 0px 0px 2.6px;
+}
+
+.quantity-control.minus {
+  margin-right: 6px;
+  line-height: 12px;
+  padding: 0px 0px 0px 4.7px;
+}
+
 @keyframes spin {
   from {
     transform: rotate(0turn);

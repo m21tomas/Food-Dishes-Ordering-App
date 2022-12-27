@@ -22,6 +22,8 @@ const UserHomeContainer = () => {
     })
     const canteenSearchRef = useRef();
 
+    const emptyList = useRef(false);
+
     useEffect(() => {
         let page = canteens.currentPage - 1;
         if (page < 0) page = 0;
@@ -34,8 +36,9 @@ const UserHomeContainer = () => {
                     totalPages: response.data.totalPages,
                     totalElements: response.data.totalElements,
                     numberOfElements: response.data.numberOfElements,
-                    currentPage: response.data.number + 1,
+                    currentPage: response.data.number + 1
                 }));
+                response.data.content.length === 0 ? emptyList.current = true : emptyList.current = false;
                 //console.log(JSON.stringify(response.data));
             })
             .catch((err) => { console.log(JSON.stringify(err.response.data)) });
@@ -177,7 +180,8 @@ const UserHomeContainer = () => {
 
 
                             {
-                                canteens.canteenWithAnImage.length === 0 ? <h3>Tuščia</h3>
+                                canteens.canteenWithAnImage.length === 0 ? emptyList.current ? <h3>Empty</h3>
+                                    :<h3>Loading cards...</h3> 
                                     :
                                     canteens.canteenWithAnImage.map(item =>
                                         <div key={item.id} className="flex col-lg-3 col-md-6 pt-3">

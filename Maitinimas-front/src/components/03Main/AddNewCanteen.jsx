@@ -37,13 +37,13 @@ function AddNewCanteen({ canteensObj, setCanteensObj }) {
 
         if (duomenys.image.length > 0 || duomenys.file !== '') {
             if (
-                duomenys.id.length > 0 && infoValid.id &&
+                (duomenys.id.length > 0 && infoValid.id &&
                 duomenys.name.length > 0 && infoValid.name &&
                 duomenys.address.length > 0 && infoValid.address &&
-                (
-                    infoValid.image && urlLinkValid ||
-                    duomenys.file.type && duomenys.file.type.indexOf('image') !== -1
-                )
+                
+                    infoValid.image && urlLinkValid) || 
+                    (duomenys.file.type && duomenys.file.type.indexOf('image') !== -1)
+                
             ) {
                 allOk = true;
             }
@@ -204,7 +204,7 @@ function AddNewCanteen({ canteensObj, setCanteensObj }) {
                         }else {
                             ext = binaryFileType.split('/').pop()
                         }
-                        fileName = "Internet-Image" + "-" + dateTime + "." + ext;
+                        fileName = "Internet-Image-" + dateTime + "." + ext;
                         console.log("fileName: ", fileName, " blob type: ", blobPromise.type, " binaryFileType: ", binaryFileType)
                         file = new File([blobPromise], fileName, {
                             type: binaryFileType
@@ -347,7 +347,7 @@ function AddNewCanteen({ canteensObj, setCanteensObj }) {
             })
             if (theFile.type.indexOf('image') !== -1) {
                 setDiskImagePreview(URL.createObjectURL(theFile))
-                console.log("theFile: " + " " + " is image: " + (theFile.type));
+                console.log("theFile: is image: " + (theFile.type));
             }
             else {
                 setDiskImagePreview(null);
