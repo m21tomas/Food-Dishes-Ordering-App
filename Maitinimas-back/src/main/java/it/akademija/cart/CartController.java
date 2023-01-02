@@ -3,6 +3,10 @@ package it.akademija.cart;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -27,6 +32,23 @@ public class CartController {
 	public ResponseEntity<List<CartItemsResponseDTO>> showCart(){
 		String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
 	    return cartService.listCartItems(currentUsername);
+	}
+	
+	/**
+	 * Returns a page of all canteens.
+	 * 
+	 * @return page of all canteens
+	 */
+	@Secured({ "ROLE_USER", "ROLE_ADMIN" })
+	@GetMapping(path = "/allCartItemsPage")
+	public Page<CartItemsResponseDTO> getAPageOfAllCanteens(@RequestParam("page") int page, @RequestParam("size") int size) {
+		String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+		
+		Sort.Order order = new Sort.Order(Sort.Direction.ASC, "id");
+
+		Pageable pageable = PageRequest.of(page, size, Sort.by(order));
+
+		return cartService.getAPageOfCartItems(pageable, currentUsername);
 	}
 	
 	@Secured({ "ROLE_USER" }) 

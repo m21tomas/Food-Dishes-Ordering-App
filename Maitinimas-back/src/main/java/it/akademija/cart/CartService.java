@@ -2,10 +2,13 @@ package it.akademija.cart;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -66,7 +69,7 @@ public class CartService {
 			return new ResponseEntity<List<CartItemsResponseDTO>> (bodyList3, HttpStatus.UNAUTHORIZED);
 		}
 
-		items = cartRepo.findByUser(user);
+		items = cartRepo.findByUser (user);
 
 		if(items.size() > 0) {
 			String log_strItems = "";
@@ -98,6 +101,32 @@ public class CartService {
 			
 			return new ResponseEntity<List<CartItemsResponseDTO>> (bodyList4, HttpStatus.NOT_FOUND);
 		}
+	}
+	
+	@Transactional(readOnly = true)
+	public Page<CartItemsResponseDTO> getAPageOfCartItems(Pageable pageable, String username){
+		User user = userService.findByUsername(username);
+		
+		Page<CartItem> cartItems = cartRepo.findAllCartItemUser(user, pageable);
+		
+		Page<CartItemsResponseDTO> dtoPage = cartItems.map(new Function<CartItem, CartItemsResponseDTO>() {
+
+			@Override
+			public CartItemsResponseDTO apply(CartItem t) {
+				CartItemsResponseDTO dto = new CartItemsResponseDTO(); 
+				
+				dto.setCartItemId(t.getId());
+				dto.setDishId(t.getDish().getId());
+				dto.setDishName(t.getDish().getName());
+				dto.setDishDescription(t.getDish().getDescription());
+				dto.setQuantityInCart(t.getQuantity());
+				dto.setServiceResponse("An item in your cart.");
+				dto.setUsername(t.getUser().getUsername());
+				
+				return dto;
+			}
+		});	
+		return dtoPage;
 	}
 	
 	@Transactional

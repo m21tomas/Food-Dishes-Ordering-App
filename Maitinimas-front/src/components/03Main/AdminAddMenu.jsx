@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import AdminCanteenContext from "../06Services/AdminCanteenContext";
-import EditDishes from './ChangeMenuNameOrDeleteIt';
+//import EditDishes from './ChangeMenuNameOrDeleteIt';
 import apiEndpoint from "../06Services/endpoint";
 import EditMenu from './AddNewMenuAndListIt';
 import validateField from '../07CommonComponents/ValidateCanteenFields';
@@ -83,7 +83,7 @@ const AdminAddMenu = () => {
         // console.log("The faPenToSquare is: \n", faPenToSquare)
         console.log("useEffect context canteenState output: ", canteenState)
         canteenState.map(item =>
-            setCanteenFullData({
+            setCanteenFullData(canteenFullData => ({
                 ...canteenFullData,
                 id: item.id,
                 name: item.name,
@@ -91,10 +91,10 @@ const AdminAddMenu = () => {
                 image: item.image,
                 menus: item.menus,
                 menuName: item.menus.length !== 0 ? item.menus[0].name : null
-            })
+            }))
         )
         getAllEntities()
-    }, [])
+    }, [canteenState])
 
     function getAllEntities() {
         axios.get(`${apiEndpoint}/api/istaigos/allCenteens`)
@@ -286,7 +286,7 @@ const AdminAddMenu = () => {
             editAddress: false,
             editMenu: false
         })
-        canteensList.filter((canteen) => canteen.id == event.target.value).map(item => {
+        canteensList.filter((canteen) => canteen.id === event.target.value * 1).map(item => {
             setCanteenFullData({
                 ...canteenFullData,
                 id: item.id,
@@ -296,6 +296,7 @@ const AdminAddMenu = () => {
                 menus: item.menus,
                 menuName: item.menus.length !== 0 ? item.menus[0].name : null
             })
+            return null;
         })
     }
 
@@ -319,9 +320,30 @@ const AdminAddMenu = () => {
                                 )
                             }
                         </select>
-                            <button className="editDishBack" onClick={() => history.push("/canteen")}>Atgal</button>
-
+                        <button className="editDishBack" onClick={() => history.push("/canteen")}>Atgal</button>
                     </div>
+                    {/* <table>
+                        <tbody>
+                            <tr>
+                                <td style={{ width: '388.83px' }}>
+                                    <h3 className='cant-drop'>Redaguoti maitinimo įstaigą:</h3>
+                                </td>
+                                <td style={{ width: '220px', verticalAlign: 'top'}}>
+                                    <select value={canteenFullData.id} onChange={(e) => handleChangeCanteen(e)}
+                                        name="canteens_dropdown" className='cant-drop drplist'>
+                                        {
+                                            canteensList.map(item =>
+                                                <option key={item.id} value={item.id}>{item.name}</option>
+                                            )
+                                        }
+                                    </select>
+                                </td>
+                                <td style={{ width: '246.17px', float: 'right'}}>
+                                    <button className="editDishBack" onClick={() => history.push("/canteen")}>Atgal</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table> */}
 
                     <table className="table">
                         <thead>

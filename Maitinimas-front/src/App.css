@@ -129,7 +129,7 @@
 }
 
 .current {
-  color:ora !important;
+  color:black !important;
   text-decoration: underline;
   text-underline-offset: 4px;
   font-weight: 700;
@@ -538,7 +538,7 @@
 .cant-drop {
   display: flex;
   position: relative;
-  width: auto;
+  width: 388.83px;
 }
 
 .cant-drop.drplist {
@@ -551,22 +551,16 @@
 }
 
 .editDishBack {
+  display: flex;
   background-color: white;
   color: black;
-
   width: 4em;
-  margin: 5px 5px 5px 305px;
+  height: 29.2px;
+  margin: 6.1px 5px 5px 5px;
   padding: 2px 10px 3px;
-
   border: 1px solid black;
   border-radius: 5px;
-
-  font-size: 16px;
-  text-align: center;
-  text-decoration: none;
-
-  display: grid;
-  cursor: pointer;
+  font-size: 14px;
 }
 
 .MenuDropdown{

@@ -74,6 +74,9 @@ function ChosenCanteen() {
                                 inputFocus: focusStatus ? true : false
                                 // https://codesandbox.io/s/pensive-wood-7g04dc
                                 // https://codesandbox.io/s/serene-neco-v7h33u
+                                // https://codesandbox.io/s/friendly-wu-8sc3d3
+                                // https://codesandbox.io/s/friendly-wu-8sc3d3-bad-example001-8sc3d3
+                                // https://codesandbox.io/s/friendly-wu-9sc4d4-good-example-forked-cld9ic
                             }
                         }
                         else { return dishItem }

@@ -15,6 +15,7 @@ import AdminAddMenu from "./components/03Main/AdminAddMenu";
 import UserNavBar from './components/01Navigation/UserNavBar';
 import UserHomeContainer from "./components/05Client/UserHomeContainer";
 import ChosenCanteen from './components/05Client/ChosenCanteen';
+import CartConatainer from './components/05Client/CartContainer';
 
 import './App.css';
 import axios from "axios";
@@ -136,6 +137,7 @@ function App() {
                       <Route exact path="/" component={UserHomeContainer} />
                       <Route exact path="/home" component={UserHomeContainer} />
                       <Route exact path="/canteen/:id" component={ChosenCanteen} />
+                      <Route exact path="/cartContainer" component={CartConatainer} />
 
                       <Route path="*" component={NotFound} />
                     </Switch>
