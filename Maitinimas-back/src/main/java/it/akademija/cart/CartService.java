@@ -241,7 +241,7 @@ public class CartService {
 	}
 	
 	@Transactional
-	public ResponseEntity<CartItemsResponseDTO> updateQuantity(Long menuId, Long dishId, Integer quantity, String username) {
+	public ResponseEntity<CartItemsResponseDTO> updateQuantity(Long cartItemId, Long dishId, Integer quantity, String username) {
 		User user = userService.findByUsername(username);
 		
 		Role role = null;
@@ -265,36 +265,21 @@ public class CartService {
 			return new ResponseEntity<CartItemsResponseDTO> (body2, HttpStatus.UNAUTHORIZED);
 		}
 		
-		Dish dish = null;
+		CartItem theItem = cartRepo.findById(cartItemId.intValue()).orElse(null);
 		
-		Menu menu = menuDao.findById(menuId).orElse(null);
-		
-		if(menu != null) {
-			List<Dish> dishes = menu.getDishes();
+		if(theItem == null) {
+			LOG.error("[{}]: No such cart item with id: [{}] that would have dish with id: [{}]. Provide existing menu and dish IDs.", 
+					   user.getUsername(), cartItemId, dishId);
 			
-			for(Dish item : dishes) {
-				if(item.getId().equals(dishId)) {
-					dish = item;
-					break;
-				}
-			}
-		}
-		
-		if(menu == null || dish == null) {
-			LOG.error("[{}]: No such menu with id: [{}] that would have dish with id: [{}]. Provide existing menu and dish IDs.", 
-					   user.getUsername(), menuId, dishId);
-			
-			String serverResponse = "No such menu with id: " + menuId.toString() + " that would have dish with id: " +
-					dishId.toString() + ". Provide existing menu and dish IDs.";
+			String serverResponse = "No such cart item with id: " + cartItemId.toString() + " that would have dish with id: " +
+					dishId.toString() + ". Provide existing cart and dish IDs.";
 			
 			CartItemsResponseDTO body3 = new CartItemsResponseDTO(null, null, null, null, null, user.getUsername(), serverResponse);
 			
 			return new ResponseEntity<CartItemsResponseDTO> (body3, HttpStatus.NOT_FOUND);
 		}
 		
-		CartItem cartItem = cartRepo.findByUserAndDish(user, dish);
-		
-		if(cartItem != null && quantity > 0) {
+		if(theItem != null && quantity > 0) {
 			
 			cartRepo.updateQuantity(quantity, dishId, user.getUserId());
 			
@@ -302,13 +287,16 @@ public class CartService {
 			
 			LOG.info("[{}]: "+serverResponse, user.getUsername());
 			
-			CartItemsResponseDTO body4 = new CartItemsResponseDTO(cartItem.getId(), cartItem.getDish().getId(), cartItem.getDish().getName(), 
-					cartItem.getDish().getDescription(), quantity, user.getUsername(), serverResponse);
+			CartItemsResponseDTO body4 = new CartItemsResponseDTO(theItem.getId(), theItem.getDish().getId(), theItem.getDish().getName(), 
+					theItem.getDish().getDescription(), quantity, user.getUsername(), serverResponse);
 			
 			return new ResponseEntity<CartItemsResponseDTO> (body4, HttpStatus.OK);
 		}
 
-		String serverResponse = "The dish quanity is NOT UPDATED. Quantity value should be positive integer number. Dish and menu ids should also be correct.";
+		String serverResponse = "The dish quanity is NOT UPDATED. Quantity value should be positive integer number. Dish and cart item ids should also be correct. \n"
+				+ "Parameters - cartItemId:" + cartItemId+ ", dishId:" + dishId + ", quantity:" + quantity  ;
+		
+		
 		
 		LOG.info("[{}]: "+serverResponse, user.getUsername());
 		

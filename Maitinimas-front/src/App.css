@@ -661,6 +661,10 @@
   padding: 0px 0px 0px 4.7px;
 }
 
+.mrNice:hover {
+  color: red
+}
+
 @keyframes spin {
   from {
     transform: rotate(0turn);

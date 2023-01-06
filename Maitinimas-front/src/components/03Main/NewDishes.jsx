@@ -22,7 +22,8 @@ function NewDishes({ fullData, chosenId, menuData, setMenuData, handleChange,
         const menu = fullData.menus.filter((menu) => menu.id === chosenId);
 
         if (menu[0].dishes.length >= editTableDishes.length) {
-            const dishes = menu[0].dishes.map((dish, index) => ({
+            setEditTableDishes(editTableDishes => menu[0].dishes.map((dish, index) => ({
+                 
                 id: dish.id,
                 name: dish.name,
                 description: dish.description,
@@ -32,12 +33,13 @@ function NewDishes({ fullData, chosenId, menuData, setMenuData, handleChange,
                 infoValid_dishName: editTableDishes.length !== 0 && index < editTableDishes.length ? editTableDishes.at(index).infoValid_dishName : true,
                 infoValid_description: editTableDishes.length !== 0 && index < editTableDishes.length ? editTableDishes.at(index).infoValid_description : true,
                 buttonDishEditRecolor: 0
-            }));
-            console.log(dishes);
-            setEditTableDishes(dishes);
+            })));
+           // console.log(dishes);
+           // setEditTableDishes(dishes);
         }
         else {
-            const dishes2 = menu[0].dishes.map((dish, index) => ({
+            setEditTableDishes(editTableDishes => menu[0].dishes.map((dish, index) => ({
+                
                 id: dish.id,
                 name: dish.name,
                 description: dish.description,
@@ -47,12 +49,12 @@ function NewDishes({ fullData, chosenId, menuData, setMenuData, handleChange,
                 infoValid_dishName: index < deleteIndex ? editTableDishes.at(index).infoValid_dishName : editTableDishes.at(index + 1).infoValid_dishName,
                 infoValid_description: index < deleteIndex ? editTableDishes.at(index).infoValid_description : editTableDishes.at(index + 1).infoValid_description,
                 buttonDishEditRecolor: 0
-            }));
-            console.log(dishes2);
-            setEditTableDishes(dishes2);
+            })));
+           // console.log(dishes2);
+           // setEditTableDishes(dishes2);
             setDeleteIndex(null);
         }
-    }, [fullData])
+    }, [fullData, chosenId, deleteIndex, editTableDishes.length])
 
     const handleDishEdit = (event, index) => {
         let changedDishName = undefined;
@@ -167,6 +169,7 @@ function NewDishes({ fullData, chosenId, menuData, setMenuData, handleChange,
                     description: dish.editDescription
                 };
             }
+            return null;
         });
 
         axios.put(`${apiEndpoint}/api/menu/changeDishInTheMenu/${chosenId}`, dishWithIdDTO)
@@ -247,6 +250,7 @@ function NewDishes({ fullData, chosenId, menuData, setMenuData, handleChange,
             if (i === index) {
                 deletedDishName = dish.name;
             }
+            return null;
         });
 
         axios.delete(`${apiEndpoint}/api/menu/removeDishFromMenu/${chosenId}/${dishId}`)
@@ -348,7 +352,7 @@ function NewDishes({ fullData, chosenId, menuData, setMenuData, handleChange,
                                                     </ReactTooltip>
                                             }
                                         </td>
-                                        <td style={{ textAlign: "center" }}>
+                                        <td style={{ textAlign: "center", verticalAlign: 'middle' }}>
                                             {
                                                 item.editField ?
                                                     <button
@@ -375,7 +379,7 @@ function NewDishes({ fullData, chosenId, menuData, setMenuData, handleChange,
                                                     </button>
                                             }
                                         </td>
-                                        <td style={{ textAlign: "center" }}>
+                                        <td style={{ textAlign: "center", verticalAlign: 'middle', padding: '6px'}}>
                                             {
                                                 item.editField ?
                                                     <button id='btnEditDish'
