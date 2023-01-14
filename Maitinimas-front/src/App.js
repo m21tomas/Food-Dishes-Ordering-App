@@ -16,9 +16,11 @@ import UserNavBar from './components/01Navigation/UserNavBar';
 import UserHomeContainer from "./components/05Client/UserHomeContainer";
 import ChosenCanteen from './components/05Client/ChosenCanteen';
 import CartConatainer from './components/05Client/CartContainer';
+import OrdersContainer from './components/04Admin/OrdersContainer';
 
 import './App.css';
 import axios from "axios";
+import OrderContainer from "./components/05Client/OrderContainer";
 
 var initState = {
   isAuthenticated: null,
@@ -118,6 +120,8 @@ function App() {
 
                       <Route exact path="/addMenu/:id" component={AdminAddMenu} />
 
+                      <Route exact path="/allOrders" component={OrdersContainer} />
+
                       <Route path="*" component={NotFound} />
                     </Switch>
                   </AdminNavBar>
@@ -138,6 +142,7 @@ function App() {
                       <Route exact path="/home" component={UserHomeContainer} />
                       <Route exact path="/canteen/:id" component={ChosenCanteen} />
                       <Route exact path="/cartContainer" component={CartConatainer} />
+                      <Route exact path="/userOrders" component={OrderContainer} />
 
                       <Route path="*" component={NotFound} />
                     </Switch>

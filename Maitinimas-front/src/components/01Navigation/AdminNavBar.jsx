@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import apiEndpoint from "../06Services/endpoint";
 import { NavLink } from "react-router-dom";
 
 import logo from "../../images/maist2.png";
@@ -7,6 +9,19 @@ import "../../App.css";
 import LogoutContainer from "./LogoutContainer";
 
 function Navigation(props) {
+
+  const [orders, setOrders] = useState(0);
+
+  useEffect(() => {
+    axios.get(`${apiEndpoint}/api/order/getAllOrders`)
+      .then((response) => {
+        //console.log("Admin - Overall orders: " + JSON.stringify(response.data))
+        setOrders(response.data.length)
+      })
+      .catch((err) => {
+        console.log(err.response.data)
+      })
+  }, [])
 
   return (
     <div className="pb-4">
@@ -28,7 +43,7 @@ function Navigation(props) {
                   className="nav-link nav1"
                   activeClassName="current"
 
-                  id="navAdminUserList"
+                  id="navAdminCanteensList"
                   to={"/canteen"}
                 >
                   Maitinimo įstaigos
@@ -47,14 +62,29 @@ function Navigation(props) {
                 </NavLink>
               </li>
 
-              <li className="nav-item nav-item ms-2" style={{position: "absolute", right:"20px"}}>
+              {
+                orders > 0 ?
+                  <li className="nav-item me-2">
+                    <NavLink
+                      className="nav-link nav1"
+                      activeClassName="current"
+                      id="navAdminOrdersList"
+                      to={"/allOrders"}
+                    >
+                      Užsakymai
+                    </NavLink>
+                  </li>
+                  : <></>
+              }
+
+              <li className="nav-item nav-item ms-2" style={{ position: "absolute", right: "20px" }}>
                 <LogoutContainer />
               </li>
             </ul>
           </div>
         </div>
       </nav>
-      
+
       <div>{props.children}</div>
     </div>
   );

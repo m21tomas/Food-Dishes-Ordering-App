@@ -661,8 +661,52 @@
   padding: 0px 0px 0px 4.7px;
 }
 
-.mrNice:hover {
-  color: red
+.justOrder{
+  vertical-align: 'middle';
+  text-align: center;
+  padding: 5px;
+}
+
+.justOrder.orderSubmitted {
+  background-color: rgb(255, 253, 205);
+  font-style: italic;
+  font-weight: 400;
+}
+
+.justOrder.orderApproved {
+  background-color: rgb(217, 255, 205);
+  font-style: italic;
+  font-weight: 500;
+}
+
+.justOrder.orderRejected {
+  background-color: rgb(255, 205, 205);
+  font-style: italic;
+  font-weight: 400;
+}
+
+.adminOrdersReview {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.adminOrdersReview.submit {
+  background-color: khaki;
+  font-weight: 500;
+}
+
+.adminOrdersReview.approved {
+  background-color:lightgreen;
+  font-weight: 500;
+}
+
+.adminOrdersReview.withdrawn {
+  background-color:lightcoral;
+  font-weight: 500;
+}
+
+.adminOrdersModalWidth {
+  width: 100%;
 }
 
 @keyframes spin {

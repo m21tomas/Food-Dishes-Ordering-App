@@ -22,6 +22,7 @@ function UserNavBar(props) {
     const history = useHistory();
 
     const [itemsInCart, setItemsInCart] = useState(0);
+    const [orders, setOrders] = useState(0);
 
     useEffect(() => {
         axios.get(`${apiEndpoint}/api/cart/getCart`)
@@ -49,47 +50,22 @@ function UserNavBar(props) {
                     return null;
                 })
             });
+
+        axios.get(`${apiEndpoint}/api/order/getUserOrder`)
+            .then((response) => {
+                if (response.status === 200) {
+                    setOrders(response.data.length)
+                    console.log("user: " + state.username);
+                    console.log("Number of orders: " + response.data.length)
+                }
+            })
+            .catch((err) => {
+                console.log(err.response.data)
+            });
     }, [cartState, state.username])
 
     return (
         <>
-            {/* <Navbar bg="light" expand="lg">
-
-                <Navbar.Brand href={ "/home"}><img
-                    className="ps-3 nav-img"
-                    src={logo}
-                    alt="logotipas"
-                    loading="lazy" /></Navbar.Brand>
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="me-auto">
-                        <Nav.Link href={"/home"}>Home</Nav.Link>
-                        
-                    </Nav>
-                    <div className="pe-3"><h6>{state.username}</h6></div>
-                    <div className="pe-3">
-                    <Table>
-                            <tbody>
-                                <tr>
-                                    <td style={{ padding: '0px', textAlign: 'center' ,border: 'none' }}>
-                                        <p style={{marginBottom: '-3px'}}>{itemsInCart}</p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style={{ padding: '0px',  textAlign: 'center', border: 'none' }}>
-                                        <FontAwesomeIcon style={ itemsInCart==null ? { verticalAlign: '-40%'} :
-                                                                                     { verticalAlign: '10%'}}
-                                         icon={faShoppingCart} />
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </Table>
-                        
-                    </div>
-                    <div className="pe-4"><LogoutContainer /></div>
-                </Navbar.Collapse>
-            </Navbar> */}
-            
             <nav className="navbar navbar-expand-md navbar-light bg-light">
                 <div className="container-fluid">
                     <NavLink className="navbar-brand" to={"/home"}>
@@ -112,32 +88,45 @@ function UserNavBar(props) {
                                     Home
                                 </NavLink>
                             </li>
+                            {
+                                orders > 0 ?
+                                    <li className="nav-item me-2">
+                                        <NavLink
+                                            className="nav-link"
+                                            id="navAdminUserList"
+                                            to={"/userOrders"}
+                                        >
+                                            Užsakymai
+                                        </NavLink>
+                                    </li>
+                                : <></>
+                            }
                         </ul>
                     </div>
-                        <div className="pe-3"><h6>{state.username}</h6></div>
+                    <div className="pe-3"><h6>{state.username}</h6></div>
                     <div className="pe-3">
-                    <Table>
+                        <Table>
                             <tbody>
                                 <tr>
-                                    <td style={{ padding: '0px', textAlign: 'center' ,border: 'none' }}>
+                                    <td style={{ padding: '0px', textAlign: 'center', border: 'none' }}>
                                         <button
                                             id='btnCheckCart'
                                             className='editEntityField'
                                             onClick={() => history.push("/cartContainer")}
                                         >
-                                            <p style={{marginBottom: '-3px'}}>{itemsInCart}</p>
+                                            <p style={{ marginBottom: '-3px' }}>{itemsInCart}</p>
                                         </button>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style={{ padding: '0px',  textAlign: 'center', border: 'none' }}>
+                                    <td style={{ padding: '0px', textAlign: 'center', border: 'none' }}>
                                         <button
                                             id='btnCheckCart'
                                             className='editEntityField'
                                             onClick={() => history.push("/cartContainer")}
                                         >
-                                            <FontAwesomeIcon style={ itemsInCart==null ? { verticalAlign: '-40%'} :
-                                                                                     { verticalAlign: '10%'}}
+                                            <FontAwesomeIcon style={itemsInCart == null ? { verticalAlign: '-40%' } :
+                                                { verticalAlign: '10%' }}
                                                 icon={faShoppingCart} />
                                         </button>
                                     </td>

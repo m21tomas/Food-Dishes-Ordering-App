@@ -255,7 +255,7 @@ public class OrderService {
 		else {
 			LOG.error("[{}]: No such order with id: [{}] to be deleted.", username, id);
 			
-			return new ResponseEntity<String>("No such order with id: "+id.toString()+" tobe deleted.", HttpStatus.NOT_FOUND);
+			return new ResponseEntity<String>("No such order with id: "+id.toString()+" to be deleted.", HttpStatus.NOT_FOUND);
 		}
 	}
 }

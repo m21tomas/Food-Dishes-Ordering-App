@@ -27,7 +27,7 @@ public class Orders {
 	private Integer id;
 	
 	@NotEmpty
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
 	private LocalDateTime submitedAt;
 	
 	@NotEmpty
