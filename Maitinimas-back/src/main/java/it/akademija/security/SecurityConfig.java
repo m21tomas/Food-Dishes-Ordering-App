@@ -91,9 +91,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 						response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
 						response.setHeader("Content-Type", "application/json;charset=UTF-8");
 						response.getWriter().print("{\"username\": \"" + username + "\", \"role\":\"" + role + "\"}");
-
 					}
-
 				})
 
 				.failureHandler(new AuthenticationFailureHandler() {
@@ -103,7 +101,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 							AuthenticationException exception) throws IOException, ServletException {
 						String username = request.getParameter("username");
 
-						LOG.info("Nesėkmingas prisijungimas prie sistemos. Naudotojo vardas: {}", username);
+						LOG.info("Nesėkmingas prisijungimas prie sistemos. Naudotojo vardas: [{}]", username);
 
 						response.sendError(401, "Neteisingas prisijungimo vardas ir/arba slaptažodis");
 					}

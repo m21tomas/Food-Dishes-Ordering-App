@@ -315,9 +315,12 @@ const AdminAddMenu = () => {
                         <select value={canteenFullData.id} onChange={(e) => handleChangeCanteen(e)}
                             name="canteens_dropdown" className='cant-drop drplist'>
                             {
-                                canteensList.map(item =>
+                                // TypeError: o.map is not a function
+                                // at py (AdminAddMenu.jsx:320:77)
+                                canteensList.size > 0 ? null : canteensList.map(item =>
                                     <option key={item.id} value={item.id}>{item.name}</option>
                                 )
+                                
                             }
                         </select>
                         <button className="editDishBack" onClick={() => history.push("/canteen")}>Atgal</button>

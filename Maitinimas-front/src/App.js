@@ -66,6 +66,14 @@ function App() {
   const [cartState, setCartState] = useState(0);
 
   useEffect(() => {
+    // if(!auth && state.isAuthenticated){
+    //   state.username? state.username.length !== 0 ? setAuth(state.username) : <></> : <></>;
+    // }
+    // if(!state.isAuthenticated) setAuth("");
+    
+    //if(!state.isAuthenticated) setAuth("");
+    //if(!auth) setAuth(state.username)
+
     if (state.isAuthenticated === null) {
       axios
         .get(`${apiEndpoint}/api/loggedUserRole`)
@@ -101,7 +109,6 @@ function App() {
   const location = useLocation();
 
   if (state.isAuthenticated) {
-
     switch (state.role) {
       case "ADMIN":
         return (

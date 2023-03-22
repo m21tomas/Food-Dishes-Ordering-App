@@ -49,6 +49,10 @@ public class CanteenService {
 
 				InputStream inputStream = new FileInputStream("canteen-images/" + imageName);
 				
+//				Path path = Paths.get("G:\\Java_programavimas\\Mokyklos-projektas\\Project\\Maitinimas-back\\canteen-images\\"
+//			              +imageName);
+//	            InputStream inputStream = new FileInputStream(path.toString());
+				
 				byte[] imageBytes = StreamUtils.copyToByteArray(inputStream);
 				
 				canteen.setImage(imageBytes);
@@ -289,6 +293,12 @@ public class CanteenService {
 			
 			//if(!imageName.isEmpty() || !imageName.isBlank()) {
 			if(imageName != null) {
+				
+				// G:\Java_programavimas\Mokyklos-projektas\Project\Maitinimas-back\canteen-images
+				
+//				Path path = Paths.get("G:\\Java_programavimas\\Mokyklos-projektas\\Project\\Maitinimas-back\\canteen-images\\"
+//						              +imageName);
+//				InputStream inputStream = new FileInputStream(path.toString());
 
 				InputStream inputStream = new FileInputStream("canteen-images/" + imageName);
 				
@@ -343,6 +353,10 @@ public class CanteenService {
 					//InputStream inputStream = null;
 					try {
 						inputStream = new FileInputStream("canteen-images/" + imageName);
+						
+//						Path path = Paths.get("G:\\Java_programavimas\\Mokyklos-projektas\\Project\\Maitinimas-back\\canteen-images\\"
+//					              +imageName);
+//			            inputStream = new FileInputStream(path.toString());
 					} catch (FileNotFoundException e) {
 						e.printStackTrace();
 					}

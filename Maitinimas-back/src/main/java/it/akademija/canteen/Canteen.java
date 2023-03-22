@@ -35,7 +35,7 @@ public class Canteen {
 	@NotEmpty
 	private String address;
 	
-	@OneToMany(cascade = { CascadeType.ALL}, fetch = FetchType.EAGER) //, fetch = FetchType.LAZY)
+	@OneToMany(cascade = { CascadeType.ALL}, fetch = FetchType.EAGER)
 	@JoinColumn(name="CANTEEN_ID")
 	private List<Menu> menus;
 	

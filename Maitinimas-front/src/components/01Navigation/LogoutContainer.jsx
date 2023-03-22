@@ -3,7 +3,6 @@ import {useHistory} from 'react-router-dom';
 import axios from 'axios';
 
 import '../../App.css';
-
 import apiEndpoint from '../06Services/endpoint';
 import AuthContext from "../06Services/AuthContext";
 
@@ -15,6 +14,8 @@ export default function LogoutContainer() {
     const handleLogout = e => {
       axios.post(`${apiEndpoint}/logout`)
       .then(response => {
+        console.log("Unauthenticating");
+        localStorage.setItem("auth", "");
         dispatch({ 
           type: "LOGOUT"
         })

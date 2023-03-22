@@ -23,6 +23,7 @@ function ChosenCanteen() {
                     name: response.data.name,
                     address: response.data.address,
                     image: response.data.image,
+                   // Cannot read properties of undefined (reading 'map') at ChosenCanteen.jsx:27:48
                     menus: response.data.menus.map(menuItem => ({
                         id: menuItem.id,
                         name: menuItem.name,
@@ -110,7 +111,6 @@ function ChosenCanteen() {
     return (
         <>
             <div className="container">
-                <h3>New Canteen {params.id}</h3>
                 <div className="row">
                     <div className="wrapper wrHeight" style={{ height: '512px' }}>
                         <img src={canteen.image !== null ? `data:image/*;base64,${canteen.image}`

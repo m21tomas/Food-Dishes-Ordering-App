@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useHistory, Link } from "react-router-dom";
-import Modal from 'react-bootstrap/Modal';
 
 import "../../App.css";
 
@@ -11,7 +10,6 @@ import logo from "../../images/maist2.png";
 import Button from 'react-bootstrap/Button';
 import NewRegistrationModal from "./NewRegistrationModal";
 import ForgotPasswordModal from "./ForgotPasswordModal";
-
 axios.defaults.withCredentials = true;
 
 export const LoginContainer = () => {
@@ -22,6 +20,7 @@ export const LoginContainer = () => {
     loggingIn: false,
   };
 
+  
   const [data, setData] = React.useState(initState);
   const { dispatch } = React.useContext(AuthContext);
   const [forgotModal, setForgotModal] = useState(false);
@@ -97,6 +96,8 @@ export const LoginContainer = () => {
         headers: { "Content-type": "application/x-www-form-urlencoded" },
       })
       .then((resp) => {
+        console.log("Authenticating");
+        localStorage.setItem("auth", JSON.stringify(resp.data.username));
         dispatch({
           type: "LOGIN",
           payload: resp.data,

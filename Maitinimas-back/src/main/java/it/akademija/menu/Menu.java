@@ -15,7 +15,6 @@ import javax.validation.constraints.NotEmpty;
 
 import it.akademija.dish.Dish;
 @Entity
-//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"}) 
 public class Menu {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

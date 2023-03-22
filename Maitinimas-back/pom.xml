@@ -11,7 +11,7 @@
 	<groupId>it.akademija</groupId>
 	<artifactId>Maitinimas</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Maitinimas</name>
+	<name>maitinimas</name>
 	<description>Maisto užsakymo iš maitinimo įstaigos aplikacija</description>
 	<packaging>war</packaging>
 	<properties>
@@ -58,6 +58,11 @@
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
+    		<groupId>org.postgresql</groupId>
+    		<artifactId>postgresql</artifactId>
+    		<scope>runtime</scope>
+		</dependency>
+		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
@@ -80,6 +85,9 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
+					<image>
+                        <name>maitinimas01image</name>
+                    </image>
 				<addResources>true</addResources>
 				<!--	<excludes>
 						<exclude>

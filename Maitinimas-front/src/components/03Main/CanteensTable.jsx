@@ -9,16 +9,6 @@ function CanteensTable({canteensObj, setCanteensObj}) {
 
     const { setCanteenState } = React.useContext(AdminCanteenContext);
 
-    // const [canteensObj, setCanteensObj] = useState({
-    //     canteensArray: [],
-    //     pageSize: 10,
-    //     currentPage: 1,
-    //     totalPages: 0,
-    //     totalElements: 0,
-    //     numberOfElements: 0,
-    //     deleteItemIndex: 0
-    // })
-
     useEffect(() => {
         let pageSize = canteensObj.pageSize;
         let page = canteensObj.currentPage - 1;
@@ -48,7 +38,7 @@ function CanteensTable({canteensObj, setCanteensObj}) {
                // console.log(response.data);
             })
             .catch((error) => { console.log(error.data) });
-    }, [canteensObj.currentPage, canteensObj.deleteItemIndex, canteensObj.pageSize, canteensObj.totalElements])
+    }, [canteensObj.currentPage, canteensObj.deleteItemIndex, canteensObj.pageSize, canteensObj.totalElements, setCanteensObj])
 
     const handlePageChange = (page) => {
         setCanteensObj({ ...canteensObj, currentPage: page });
@@ -75,10 +65,6 @@ function CanteensTable({canteensObj, setCanteensObj}) {
       };
 
     return (
-        // <div>
-        //     <h1>CanteensTable</h1>
-
-        // </div>
         <React.Fragment>
             <div>
                 <h1>Maitinimo įstaigų sąrašas</h1>

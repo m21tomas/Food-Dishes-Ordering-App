@@ -251,7 +251,7 @@ function EditImage({ editCanteenData, setEditCanteenData, editDiskImagePreview, 
                 aria-expanded={changeImage}
                 title="Keisti paveiskliuką"
             >
-                Keisti paveiskliuką {changeImage ? <FontAwesomeIcon icon={faCaretSquareUp} /> :
+                Keisti paveiksliuką {changeImage ? <FontAwesomeIcon icon={faCaretSquareUp} /> :
                     <FontAwesomeIcon icon={faCaretSquareDown} />}
             </Button>
             <Collapse in={changeImage}>

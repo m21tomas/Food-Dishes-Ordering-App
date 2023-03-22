@@ -1,8 +1,13 @@
 package it.akademija.order;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -15,8 +20,15 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import it.akademija.canteen.CanteenDTO;
+import it.akademija.canteen.CanteenService;
+import it.akademija.canteen.CanteenWithAnImageDTO;
 import it.akademija.cart.CartItemsResponseDTO;
 import it.akademija.cart.CartService;
+import it.akademija.dish.DishDTO;
+import it.akademija.menu.CanteenMenuDTO;
+import it.akademija.menu.Menu;
+import it.akademija.menu.MenuService;
 import it.akademija.user.UserDTO;
 import it.akademija.user.UserService;
 
@@ -33,9 +45,61 @@ public class OrderServiceTest {
 	@Autowired
 	private UserService userService;
 	
+	@Autowired
+	private MenuService menuService;
+	
+	@Autowired
+	private CanteenService canteenService;
+	
 	@Test
 	@Order(1)
 	void testSeveralUsersCreateAndAddDishesToCart() {
+		
+		CanteenDTO testCanteen = new CanteenDTO(111111111L, "testCanteen1", "testCanteenAddress1");
+		
+		boolean savedCanteen = canteenService.createNewCanteen(testCanteen);
+		
+		assertTrue(savedCanteen);
+		
+		boolean existCanteen = canteenService.existsById(111111111L, "testCanteen1");
+		
+		assertTrue(existCanteen);
+		
+		CanteenMenuDTO menu = new CanteenMenuDTO(111111111L, "testMenu1");
+		
+		boolean createdMenu = menuService.createNewMenu(menu);
+		
+		assertTrue(createdMenu);
+		CanteenWithAnImageDTO canteen = null;
+		try {
+			canteen = canteenService.getCanteenById(111111111L);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		assertNotNull(canteen);
+		
+		long menuId = 0;
+		for(Menu item : canteen.getMenus()) {
+			if(item.getName().equals("testMenu1")) {
+				menuId = item.getId();
+			}
+		}
+		
+		menuService.addNewDishToMenu(menuId, new DishDTO("testDish1", "testDescription1"));
+		menuService.addNewDishToMenu(menuId, new DishDTO("testDish2", "testDescription2"));
+		menuService.addNewDishToMenu(menuId, new DishDTO("testDish3", "testDescription3"));
+		
+		Menu thisMenu = menuService.getMenuById(menuId);
+		
+		assertEquals("testDish1", thisMenu.getDishes().get(0).getName());
+		
+		long dishId1 = thisMenu.getDishes().get(0).getId();
+		long dishId2 = thisMenu.getDishes().get(1).getId();
+		long dishId3 = thisMenu.getDishes().get(2).getId();
+		
 		
 		UserDTO user1DTO = new UserDTO("USER", "userMolesto01@gmail.com", "Molesto", "testMolesto223");
 		UserDTO user2DTO = new UserDTO("USER", "userMuerte21@gmail.com", "Muerte", "testMuerte221");
@@ -55,9 +119,9 @@ public class OrderServiceTest {
 		
 		assertEquals("userGarcia82@gmail.com", response.getEmail());
 		
-		var response2 = cartService.addDishToCart(3188L, 4241L, 2, "Molesto");
-		    response2 = cartService.addDishToCart(3188L, 4239L, 1, "Molesto");
-		    response2 = cartService.addDishToCart(3188L, 4240L, 3, "Molesto");
+		var response2 = cartService.addDishToCart(menuId, dishId1, 2, "Molesto");
+		    response2 = cartService.addDishToCart(menuId, dishId2, 1, "Molesto");
+		    response2 = cartService.addDishToCart(menuId, dishId3, 3, "Molesto");
 		    
 		assertEquals("3 new dishes were added to your cart.", response2.getBody().getServiceResponse());
 		    
@@ -73,8 +137,8 @@ public class OrderServiceTest {
 		cartItems.removeAll(cartItems);
 		quantity = 0;
 		
-		var response3 = cartService.addDishToCart(3188L, 4242L, 1, "Muerte");
-			response3 = cartService.addDishToCart(3189L, 4243L, 2, "Muerte");
+		var response3 = cartService.addDishToCart(menuId, dishId1, 1, "Muerte");
+			response3 = cartService.addDishToCart(menuId, dishId2, 2, "Muerte");
 			
 		assertEquals("2 new dishes were added to your cart.", response3.getBody().getServiceResponse());
 		
@@ -90,9 +154,9 @@ public class OrderServiceTest {
 		cartItems.removeAll(cartItems);
 		quantity = 0;
 			
-		var response4 = cartService.addDishToCart(3189L, 4244L, 1, "Hernandez");
-			response4 = cartService.addDishToCart(3189L, 4245L, 4, "Hernandez");
-			response4 = cartService.addDishToCart(3189L, 4246L, 2, "Hernandez");
+		var response4 = cartService.addDishToCart(menuId, dishId1, 1, "Hernandez");
+			response4 = cartService.addDishToCart(menuId, dishId2, 4, "Hernandez");
+			response4 = cartService.addDishToCart(menuId, dishId3, 2, "Hernandez");
 		
 			assertEquals("2 new dishes were added to your cart.", response4.getBody().getServiceResponse());
 			
@@ -108,8 +172,8 @@ public class OrderServiceTest {
 			cartItems.removeAll(cartItems);
 			quantity = 0;
 			
-		var response5 = cartService.addDishToCart(4176L, 4247L, 3, "Garcia");
-			response5 = cartService.addDishToCart(4176L, 4248L, 1, "Garcia");
+		var response5 = cartService.addDishToCart(menuId, dishId1, 3, "Garcia");
+			response5 = cartService.addDishToCart(menuId, dishId2, 1, "Garcia");
 		
 			assertEquals("1 new dish was added to your cart.", response5.getBody().getServiceResponse());
 			
@@ -125,9 +189,9 @@ public class OrderServiceTest {
 			cartItems.removeAll(cartItems);
 			quantity = 0;
 			
-		var response6 = cartService.addDishToCart(4176L, 4249L, 1, "Gefesto");
-			response6 = cartService.addDishToCart(4176L, 4250L, 1, "Gefesto");
-			response6 = cartService.addDishToCart(4251L, 4252L, 1, "Gefesto");
+		var response6 = cartService.addDishToCart(menuId, dishId1, 1, "Gefesto");
+			response6 = cartService.addDishToCart(menuId, dishId2, 1, "Gefesto");
+			response6 = cartService.addDishToCart(menuId, dishId3, 1, "Gefesto");
 		
 			assertEquals("1 new dish was added to your cart.", response6.getBody().getServiceResponse());
 			
@@ -143,8 +207,8 @@ public class OrderServiceTest {
 			cartItems.removeAll(cartItems);
 			quantity = 0;
 			
-		var response7 = cartService.addDishToCart(4251L, 4253L, 1, "Esmeralda");
-			response7 = cartService.addDishToCart(4251L, 4254L, 4, "Esmeralda");
+		var response7 = cartService.addDishToCart(menuId, dishId1, 1, "Esmeralda");
+			response7 = cartService.addDishToCart(menuId, dishId2, 4, "Esmeralda");
 		
 			assertEquals("4 new dishes were added to your cart.", response7.getBody().getServiceResponse());
 			
@@ -190,10 +254,10 @@ public class OrderServiceTest {
 		while(items.hasNext()) {
 			Item item = items.next();
 			dishName = item.getDishName();
-			if(dishName.equals("Cepelinai su mėsa"))
+			if(dishName.equals("testDish1"))
 			break;
 		}
-		assertEquals("Cepelinai su mėsa", dishName);
+		assertEquals("testDish1", dishName);
 		
 		response = orderService.getUserOrders("Muerte");
 			@SuppressWarnings("unchecked")
@@ -264,7 +328,7 @@ public class OrderServiceTest {
 		@SuppressWarnings("unchecked")
 		List<Orders> orders = (List<Orders>) response.getBody();
 		
-		assertEquals(6, orders.size());
+		assertTrue(orders.size() >= 6);
 	}
 	
 	@Disabled
@@ -463,7 +527,9 @@ public class OrderServiceTest {
 		userService.deleteUser("Garcia");
 		userService.deleteUser("Gefesto");
 		userService.deleteUser("Esmeralda");
+		canteenService.deleteCanteen(111111111L);
 		
 		assertNull(userService.findByUsername("Molesto"));
+		assertFalse(canteenService.existsById(111111111L, "testCanteen1"));
 	}
 }

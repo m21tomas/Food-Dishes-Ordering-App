@@ -1,28 +1,18 @@
 {
   "files": {
-    "main.css": "/Maitinimas/static/css/main.73b4a05b.chunk.css",
-    "main.js": "/Maitinimas/static/js/main.6480b2dc.chunk.js",
-    "main.js.map": "/Maitinimas/static/js/main.6480b2dc.chunk.js.map",
-    "runtime-main.js": "/Maitinimas/static/js/runtime-main.db121c4e.js",
-    "runtime-main.js.map": "/Maitinimas/static/js/runtime-main.db121c4e.js.map",
-    "static/js/2.a3d86368.chunk.js": "/Maitinimas/static/js/2.a3d86368.chunk.js",
-    "static/js/2.a3d86368.chunk.js.map": "/Maitinimas/static/js/2.a3d86368.chunk.js.map",
-    "static/js/3.1cdc6d71.chunk.js": "/Maitinimas/static/js/3.1cdc6d71.chunk.js",
-    "static/js/3.1cdc6d71.chunk.js.map": "/Maitinimas/static/js/3.1cdc6d71.chunk.js.map",
+    "main.css": "/Maitinimas/static/css/main.5092e7c2.css",
+    "main.js": "/Maitinimas/static/js/main.c2553e8a.js",
+    "static/js/787.db997be4.chunk.js": "/Maitinimas/static/js/787.db997be4.chunk.js",
+    "static/media/maist2.png": "/Maitinimas/static/media/maist2.b7fd303c4df627a0e774.png",
+    "static/media/defaultImg.jpg": "/Maitinimas/static/media/defaultImg.50bdc6d095ec95623de2.jpg",
     "index.html": "/Maitinimas/index.html",
-    "precache-manifest.ea291012ada985e002d758f2272a94f3.js": "/Maitinimas/precache-manifest.ea291012ada985e002d758f2272a94f3.js",
-    "service-worker.js": "/Maitinimas/service-worker.js",
-    "static/css/main.73b4a05b.chunk.css.map": "/Maitinimas/static/css/main.73b4a05b.chunk.css.map",
-    "static/js/2.a3d86368.chunk.js.LICENSE.txt": "/Maitinimas/static/js/2.a3d86368.chunk.js.LICENSE.txt",
-    "static/js/main.6480b2dc.chunk.js.LICENSE.txt": "/Maitinimas/static/js/main.6480b2dc.chunk.js.LICENSE.txt",
-    "static/media/defaultImg.jpg": "/Maitinimas/static/media/defaultImg.b3c8d977.jpg",
-    "static/media/loader.svg": "/Maitinimas/static/media/loader.467d937a.svg",
-    "static/media/maist2.png": "/Maitinimas/static/media/maist2.abb58702.png"
+    "static/media/loader.svg": "/Maitinimas/static/media/loader.03e0d80c740514c36be3e9539c53630f.svg",
+    "main.5092e7c2.css.map": "/Maitinimas/static/css/main.5092e7c2.css.map",
+    "main.c2553e8a.js.map": "/Maitinimas/static/js/main.c2553e8a.js.map",
+    "787.db997be4.chunk.js.map": "/Maitinimas/static/js/787.db997be4.chunk.js.map"
   },
   "entrypoints": [
-    "static/js/runtime-main.db121c4e.js",
-    "static/js/2.a3d86368.chunk.js",
-    "static/css/main.73b4a05b.chunk.css",
-    "static/js/main.6480b2dc.chunk.js"
+    "static/css/main.5092e7c2.css",
+    "static/js/main.c2553e8a.js"
   ]
 }

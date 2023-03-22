@@ -17,7 +17,6 @@ function NewDishes({ fullData, chosenId, menuData, setMenuData, handleChange,
     const [editTableDishes, setEditTableDishes] = useState([]);
     const [deleteIndex, setDeleteIndex] = useState(null);
 
-
     useEffect(() => {
         const menu = fullData.menus.filter((menu) => menu.id === chosenId);
 

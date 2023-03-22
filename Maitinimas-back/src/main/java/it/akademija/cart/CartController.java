@@ -62,7 +62,7 @@ public class CartController {
 	@PutMapping("/update")
 	public ResponseEntity<CartItemsResponseDTO> updateProductQuantity(@RequestBody DishToCartRequestDTO data){
 		String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
-		return cartService.updateQuantity(data.getMenuId(), data.getDishId(), data.getQuantity(), currentUsername); 
+		return cartService.updateQuantity(data.getMenuId().intValue(), data.getDishId(), data.getQuantity(), currentUsername); 
 	}
 	
 	@Secured({ "ROLE_USER" })

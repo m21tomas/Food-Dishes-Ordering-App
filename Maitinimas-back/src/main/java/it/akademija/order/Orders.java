@@ -41,7 +41,7 @@ public class Orders {
 	@Column
 	private OrderStatus status;
 	
-	@OneToMany(cascade = { CascadeType.ALL}, fetch = FetchType.LAZY, orphanRemoval = true)
+	@OneToMany(cascade = { CascadeType.ALL}, fetch = FetchType.EAGER, orphanRemoval = true)
 	@JoinColumn(name="ORDERS_ID")
 	private Set<Item> items;
 	

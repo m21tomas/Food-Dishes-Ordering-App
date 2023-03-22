@@ -28,13 +28,13 @@ function UserNavBar(props) {
         axios.get(`${apiEndpoint}/api/cart/getCart`)
             .then(response => {
                 //console.log(JSON.stringify(response.data));
-                console.log("Items in cart: " + response.data.length)
-                console.log("user: " + state.username)
-                console.log("cartState: " + cartState)
+               // console.log("Items in cart: " + response.data.length)
+               // console.log("user: " + state.username)
+               // console.log("cartState: " + cartState)
                 response.data.map((item) => {
                     if (item.cartItemId == null) {
                         setItemsInCart(null);
-                        console.log("Items in cart: null")
+                //        console.log("Items in cart: null")
                     }
                     else {
                         setItemsInCart(response.data.length);
@@ -55,8 +55,8 @@ function UserNavBar(props) {
             .then((response) => {
                 if (response.status === 200) {
                     setOrders(response.data.length)
-                    console.log("user: " + state.username);
-                    console.log("Number of orders: " + response.data.length)
+        //            console.log("user: " + state.username);
+        //            console.log("Number of orders: " + response.data.length)
                 }
             })
             .catch((err) => {
@@ -103,7 +103,7 @@ function UserNavBar(props) {
                             }
                         </ul>
                     </div>
-                    <div className="pe-3"><h6>{state.username}</h6></div>
+                    <div className="pe-3"><h6>{localStorage.getItem("auth")}</h6></div>
                     <div className="pe-3">
                         <Table>
                             <tbody>
